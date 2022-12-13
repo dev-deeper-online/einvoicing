@@ -194,6 +194,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         App\Domains\User\UserServiceProvider::class,
+        App\Domains\Receipt\ReceiptServiceProvider::class,
     ],
 
     /*
