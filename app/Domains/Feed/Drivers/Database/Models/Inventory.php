@@ -12,4 +12,14 @@ class Inventory extends Model
      * @var string
      */
     protected $table = 'rps.invn_sbs_item';
+
+    /**
+     * Get the current connection name for the model.
+     *
+     * @return string|null
+     */
+    public function getConnectionName(): ?string
+    {
+        return config('feeder.drivers.database.connection');
+    }
 }

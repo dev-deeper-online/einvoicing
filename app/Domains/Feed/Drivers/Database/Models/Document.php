@@ -15,6 +15,16 @@ class Document extends Model
     protected $table = 'rps.document';
 
     /**
+     * Get the current connection name for the model.
+     *
+     * @return string|null
+     */
+    public function getConnectionName(): ?string
+    {
+        return config('feeder.drivers.database.connection');
+    }
+
+    /**
      * Get the document
      *
      * @return HasMany

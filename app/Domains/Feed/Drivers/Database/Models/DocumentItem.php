@@ -15,6 +15,16 @@ class DocumentItem extends Model
     protected $table = 'rps.document_item';
 
     /**
+     * Get the current connection name for the model.
+     *
+     * @return string|null
+     */
+    public function getConnectionName(): ?string
+    {
+        return config('feeder.drivers.database.connection');
+    }
+
+    /**
      * Get item inventory details.
      *
      * @return BelongsTo

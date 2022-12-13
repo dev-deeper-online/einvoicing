@@ -6,16 +6,9 @@ use App\Domains\Feed\Drivers\Database\Models\Document;
 use App\Domains\Receipt\Contracts\CreatesNewReceipt;
 use App\Domains\Receipt\DTO\Receipt;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
 
 class Database implements Driver
 {
-    public function __construct(
-        protected ?string $connection = null
-    ) {
-        DB::connection($connection);
-    }
-
     /**
      * {@inheritdoc}
      *
