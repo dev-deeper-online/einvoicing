@@ -5,6 +5,7 @@ namespace App\Domains\Feed\Drivers;
 use App\Domains\Feed\Drivers\Database\Models\Document;
 use App\Domains\Receipt\Contracts\CreatesNewReceipt;
 use App\Domains\Receipt\DTO\Receipt;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 
 class Database implements Driver
@@ -24,7 +25,7 @@ class Database implements Driver
                     $document->sid,
                     $document->bt_first_name,
                     $document->sale_total_amt,
-                    $document->created_datetime,
+                    Carbon::parse($document->created_datetime),
                 ));
 
 //            $submitAction->handle($document, function ($response) use ($receipt) {
