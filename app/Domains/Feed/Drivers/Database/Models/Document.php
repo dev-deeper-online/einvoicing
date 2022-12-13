@@ -15,6 +15,13 @@ class Document extends Model
     protected $table = 'rps.document';
 
     /**
+     * The primary key for the model.
+     *
+     * @var string
+     */
+    protected $primaryKey = 'sid';
+
+    /**
      * Get the current connection name for the model.
      *
      * @return string|null
