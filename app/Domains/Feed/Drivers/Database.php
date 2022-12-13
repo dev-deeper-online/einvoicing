@@ -18,17 +18,19 @@ class Database implements Driver
     {
         Document::with([
             'items', 'items.inventory',
-        ])->each(function (Document $document) {
-            $receipt = app(CreatesNewReceipt::class)->handle(new Receipt(
-                $document->sid,
-                $document->bt_first_name,
-                $document->sale_total_amt,
-                $document->created_datetime,
-            ));
+        ])->chunk(100, function (Collection $documents) {
+            $documents->each(function (Document $document) {
+                $receipt = app(CreatesNewReceipt::class)->handle(new Receipt(
+                    $document->sid,
+                    $document->bt_first_name,
+                    $document->sale_total_amt,
+                    $document->created_datetime,
+                ));
 
 //            $submitAction->handle($document, function ($response) use ($receipt) {
 //                $receipt->handleResponse($response);
 //            });
+            });
         });
     }
 }
