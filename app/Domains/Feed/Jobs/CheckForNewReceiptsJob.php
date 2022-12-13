@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Domains\Receipt\Jobs;
+namespace App\Domains\Feed\Jobs;
 
+use App\Domains\Feed\Feed;
 use App\Domains\Receipt\Contracts\CreatesNewReceipt;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -21,6 +22,6 @@ class CheckForNewReceiptsJob implements ShouldQueue
      */
     public function handle(CreatesNewReceipt $action): void
     {
-        $action->handle();
+        Feed::run()->each(fn (array $receipt) => $action->handle($receipt));
     }
 }

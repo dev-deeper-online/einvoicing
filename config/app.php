@@ -195,6 +195,7 @@ return [
 
         App\Domains\User\UserServiceProvider::class,
         App\Domains\Receipt\ReceiptServiceProvider::class,
+        App\Domains\Feed\FeedServiceProvider::class,
     ],
 
     /*

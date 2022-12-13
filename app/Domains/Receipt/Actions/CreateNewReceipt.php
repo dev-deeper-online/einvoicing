@@ -11,8 +11,8 @@ class CreateNewReceipt implements CreatesNewReceipt
      *
      * @return void
      */
-    public function handle(): void
+    public function handle(array $receipt): void
     {
-        //
+        dd($receipt);
     }
 }

@@ -2,8 +2,8 @@
 
 namespace App\Domains\Receipt;
 
+use App\Domains\Feed\Commands\CheckForNewReceiptsCommand;
 use App\Domains\Receipt\Actions\CreateNewReceipt;
-use App\Domains\Receipt\Commands\CheckForNewReceiptsCommand;
 use App\Domains\Receipt\Contracts\CreatesNewReceipt;
 use Filament\PluginServiceProvider;
 use Spatie\LaravelPackageTools\Package;

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Domains\Receipt\Commands;
+namespace App\Domains\Feed\Commands;
 
-use App\Domains\Receipt\Jobs\CheckForNewReceiptsJob;
+use App\Domains\Feed\Jobs\CheckForNewReceiptsJob;
 use Illuminate\Console\Command;
 
 class CheckForNewReceiptsCommand extends Command

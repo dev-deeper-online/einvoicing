@@ -7,7 +7,8 @@ interface CreatesNewReceipt
     /**
      * Creates a new receipt.
      *
+     * @param  array  $receipt
      * @return void
      */
-    public function handle(): void;
+    public function handle(array $receipt): void;
 }
