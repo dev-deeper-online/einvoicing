@@ -2,14 +2,12 @@
 
 namespace App\Domains\Feed\Drivers;
 
-use Illuminate\Support\Collection;
-
 interface Driver
 {
     /**
      * Run the corresponded driver to feed the app.
      *
-     * @return Collection
+     * @return void
      */
-    public function run(): Collection;
+    public function run(): void;
 }

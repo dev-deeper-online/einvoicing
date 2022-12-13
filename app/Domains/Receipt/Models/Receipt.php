@@ -2,19 +2,16 @@
 
 namespace App\Domains\Receipt\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Receipt extends Model
 {
-    use HasFactory;
-
     /**
-     * The connection name for the model.
+     * Indicates if all mass assignment is enabled.
      *
-     * @var string|null
+     * @var bool
      */
-    protected $connection = 'central';
+    protected static $unguarded = ['*'];
 
     /**
      * Indicates if the IDs are auto-incrementing.

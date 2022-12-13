@@ -3,7 +3,6 @@
 namespace App\Domains\Feed\Jobs;
 
 use App\Domains\Feed\Feed;
-use App\Domains\Receipt\Contracts\CreatesNewReceipt;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -17,11 +16,10 @@ class CheckForNewReceiptsJob implements ShouldQueue
     /**
      * Execute the job.
      *
-     * @param  CreatesNewReceipt  $action
      * @return void
      */
-    public function handle(CreatesNewReceipt $action): void
+    public function handle(): void
     {
-        Feed::run()->each(fn (array $receipt) => $action->handle($receipt));
+        Feed::run();
     }
 }

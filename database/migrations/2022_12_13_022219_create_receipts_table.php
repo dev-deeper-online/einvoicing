@@ -17,6 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('receiver')->nullable();
             $table->string('total')->nullable();
+            $table->boolean('status')->nullable();
+            $table->json('responses')->nullable();
             $table->timestamps();
         });
     }

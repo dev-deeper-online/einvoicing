@@ -23,6 +23,8 @@ class FeedManager extends Manager
      */
     public function createDatabaseDriver(): Drivers\Database
     {
-        return new Drivers\Database();
+        return new Drivers\Database(
+            config('feeder.drivers.database.connection'),
+        );
     }
 }
