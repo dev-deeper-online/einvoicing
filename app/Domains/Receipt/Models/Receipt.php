@@ -19,4 +19,30 @@ class Receipt extends Model
      * @var bool
      */
     public $incrementing = false;
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'status' => 'bool',
+        'responses' => 'array',
+    ];
+
+    /**
+     * Save the given response.
+     *
+     * @param  mixed  $response
+     * @return void
+     */
+    public function saveResponse(mixed $response): void
+    {
+        $responses = $this->responses;
+        $responses[] = $response;
+
+        $this->update([
+            'responses' => $responses,
+        ]);
+    }
 }
