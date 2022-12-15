@@ -25,21 +25,18 @@ class Receipt
 
     /**
      * @param  Header  $header
-     * @param  array  $seller
-     * @param  array  $buyer
+     * @param  Seller  $seller
+     * @param  Buyer  $buyer
      * @param  array  $itemData
-     * @param  string  $totalSales
-     * @param  string  $totalAmount
-     * @param  string  $netAmount
-     * @param  string  $paymentMethod
+     * @param  float  $totalSales
+     * @param  float  $totalAmount
+     * @param  float  $netAmount
+     * @param  string|null  $paymentMethod
      * @param  string|null  $totalCommercialDiscount
      * @param  string|null  $totalItemsDiscount
      * @param  array|null  $extraReceiptDiscountData
-     * @param  string|null  $feesAmount
+     * @param  float|null  $feesAmount
      * @param  array|null  $taxTotals
-     * @param  string|null  $adjustment
-     * @param  array|null  $contractor
-     * @param  array|null  $beneficiary
      *
      * @throws JsonException
      */
@@ -48,18 +45,15 @@ class Receipt
         public Seller $seller,
         public Buyer $buyer,
         public array $itemData,
-        public string $totalSales,
-        public string $totalAmount,
-        public string $netAmount,
+        public float $totalSales,
+        public float $totalAmount,
+        public float $netAmount,
         public ?string $paymentMethod = 'C',
         public ?string $totalCommercialDiscount = null,
         public ?string $totalItemsDiscount = null,
         public ?array $extraReceiptDiscountData = null,
-        public ?string $feesAmount = null,
+        public ?float $feesAmount = null,
         public ?array $taxTotals = [],
-        public ?string $adjustment = null,
-        public ?array $contractor = null,
-        public ?array $beneficiary = null,
     ) {
         $this->signatures = [
             [

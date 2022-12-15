@@ -6,6 +6,7 @@ use App\Domains\ETA;
 use App\Domains\Feed\Drivers\Database\Models\Document;
 use App\Domains\Feed\Drivers\Database\Models\DocumentItem;
 use App\Domains\Receipt;
+use Illuminate\Support\Carbon;
 
 class SubmitReceipt
 {
@@ -37,8 +38,8 @@ class SubmitReceipt
     {
         $receipt = new ETA\DTO\Receipt(
             new ETA\DTO\Header(
-                $document->post_date,
-                $document->doc_no,
+                Carbon::parse($document->post_date)->toDateTimeLocalString(),
+                $document->doc_no ?? '',
                 '',
                 ''
             ),
@@ -70,17 +71,17 @@ class SubmitReceipt
                     $item->sid,
                     $item->description1,
                     $item->inventory?->text6,
-                    $item->qty,
-                    $item->orig_price,
-                    $item->orig_price,
-                    $item->orig_price,
-                    (string) ((int) $item->orig_price + (int) $item->orig_tax_amt),
+                    (int) $item->qty,
+                    (float) $item->orig_price,
+                    (float) $item->orig_price,
+                    (float) $item->orig_price,
+                    (float) $item->orig_price + (float) $item->orig_tax_amt,
                     [
                         [
                             'taxType' => 'T1',
                             'subType' => 'V009',
-                            'amount' => $item->orig_tax_amt,
-                            'rate' => $item->tax_perc,
+                            'amount' => (float) $item->orig_tax_amt,
+                            'rate' => 1,
                             'taxTypeName' => 'Value added Tax',
                             'taxTypeNameAr' => 'ضريبه القيمه المضافه',
                             'sign' => 1,
@@ -89,19 +90,19 @@ class SubmitReceipt
                     ]
                 ))->toArray(),
             ],
-            $document->sale_total_amt,
-            $document->sale_total_amt,
-            $document->sale_subtotal,
+            (float) $document->sale_total_amt,
+            (float) $document->sale_total_amt,
+            (float) $document->sale_subtotal,
             'C',
-            $document->total_discount_amt,
-            $document->total_discount_amt,
+            (float) $document->total_discount_amt,
+            (float) $document->total_discount_amt,
             [[
-                'amount' => $document->total_discount_amt, 'description' => 'ExtraDISC',
+                'amount' => (float) $document->total_discount_amt, 'description' => 'ExtraDISC',
             ]],
-            $document->total_fee_amt,
+            (float) $document->total_fee_amt,
             [[
                 'taxType' => 'T1',
-                'amount' => $document->sale_total_tax_amt,
+                'amount' => (float) $document->sale_total_tax_amt,
                 'taxTypeName' => 'Value added Tax',
                 'taxTypeNameAr' => 'ضريبه القيمه المضافه',
                 'exchangeRate' => 1,

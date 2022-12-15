@@ -8,22 +8,17 @@ class ItemData
         public string $internalCode,
         public string $description,
         public string $itemCode,
-        public string $quantity,
-        public string $unitPrice,
-        public string $netSale,
-        public string $totalSale,
-        public string $total,
+        public int $quantity,
+        public float $unitPrice,
+        public float $netSale,
+        public float $totalSale,
+        public float $total,
         public array $taxableItems,
         public string $itemType = 'EGS',
         public string $unitType = 'CS',
-        public array $commercialDiscountData = [
-            [
-                'amount' => 0,
-                'description' => 'Commercial Discount',
-            ],
-        ],
+        public array $commercialDiscountData = [],
         public array $itemDiscountData = [],
-        public string $valueDifference = '0',
+        public int $valueDifference = 0,
     ) {
         //
     }
