@@ -25,7 +25,7 @@ class Receipt extends API
             ->withToken($auth->access_token, $auth->token_type)
             ->post('/receiptsubmissions', [
                 'receipts' => [$receipt],
-                'signatures' => $receipt->signatures,
+                'signatures' => $receipt->getSignatures(),
             ]);
 
         $callback($response);

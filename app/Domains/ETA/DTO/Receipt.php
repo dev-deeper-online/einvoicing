@@ -21,7 +21,7 @@ class Receipt
      *
      * @var Signature[]
      */
-    public ?array $signatures = null;
+    protected ?array $signatures = null;
 
     /**
      * @param  Header  $header
@@ -32,11 +32,8 @@ class Receipt
      * @param  float  $totalAmount
      * @param  float  $netAmount
      * @param  string|null  $paymentMethod
-     * @param  string|null  $totalCommercialDiscount
-     * @param  string|null  $totalItemsDiscount
      * @param  array|null  $extraReceiptDiscountData
      * @param  float|null  $feesAmount
-     * @param  array|null  $taxTotals
      *
      * @throws JsonException
      */
@@ -49,11 +46,8 @@ class Receipt
         public float $totalAmount,
         public float $netAmount,
         public ?string $paymentMethod = 'C',
-        public ?string $totalCommercialDiscount = null,
-        public ?string $totalItemsDiscount = null,
         public ?array $extraReceiptDiscountData = null,
         public ?float $feesAmount = null,
-        public ?array $taxTotals = [],
     ) {
         $this->signatures = [
             [
@@ -73,5 +67,15 @@ class Receipt
     public function toArray(): array
     {
         return json_decode(json_encode($this, JSON_THROW_ON_ERROR), true, 512, JSON_THROW_ON_ERROR);
+    }
+
+    /**
+     * Get Document signatures.
+     *
+     * @return Signature[]
+     */
+    public function getSignatures(): array
+    {
+        return $this->signatures;
     }
 }

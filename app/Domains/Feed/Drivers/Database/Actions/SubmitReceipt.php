@@ -33,6 +33,8 @@ class SubmitReceipt
      *
      * @param  Document  $document
      * @return ETA\DTO\Receipt
+     *
+     * @throws \JsonException
      */
     private static function getReceipt(Document $document): ETA\DTO\Receipt
     {
@@ -94,23 +96,13 @@ class SubmitReceipt
             (float) $document->sale_total_amt,
             (float) $document->sale_subtotal,
             'C',
-            (float) $document->total_discount_amt,
-            (float) $document->total_discount_amt,
             [[
                 'amount' => (float) $document->total_discount_amt, 'description' => 'ExtraDISC',
-            ]],
-            (float) $document->total_fee_amt,
-            [[
-                'taxType' => 'T1',
-                'amount' => (float) $document->sale_total_tax_amt,
-                'taxTypeName' => 'Value added Tax',
-                'taxTypeNameAr' => 'ضريبه القيمه المضافه',
-                'exchangeRate' => 1,
             ]],
         );
 
         $receipt->header->previousUUID = '89F8875315D17E52E1EDE0FCC59C0FD340439B0E30B2F8C51371490EF8D44A70';
-        $receipt->header->uuid = hash_hmac('sha256', $receipt->signatures[0]['value'], $receipt->header->receiptNumber);
+        $receipt->header->uuid = hash_hmac('sha256', ETA\DTO\Signature::serialize($receipt->toArray()), $receipt->header->receiptNumber);
 
         return $receipt;
     }
