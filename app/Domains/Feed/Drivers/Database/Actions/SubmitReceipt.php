@@ -41,7 +41,7 @@ class SubmitReceipt
         $receipt = new ETA\DTO\Receipt(
             new ETA\DTO\Header(
                 Carbon::parse($document->post_date)->toDateTimeLocalString(),
-                $document->doc_no ?? '',
+                '0_'.$document->sid,
                 '',
                 ''
             ),
@@ -68,26 +68,24 @@ class SubmitReceipt
                 $document->bt_cuid,
                 $document->bt_first_name,
             ),
-            [
-                $document->items->map(fn (DocumentItem $item) => new ETA\DTO\ItemData(
-                    $item->sid,
-                    $item->description1,
-                    $item->inventory?->text6,
-                    (int) $item->qty,
-                    (float) $item->orig_price,
-                    (float) $item->orig_price,
-                    (float) $item->orig_price,
-                    (float) $item->orig_price + (float) $item->orig_tax_amt,
+            $document->items->map(fn (DocumentItem $item) => new ETA\DTO\ItemData(
+                $item->sid,
+                $item->description1,
+                $item->inventory?->text6,
+                (int) $item->qty,
+                (float) $item->orig_price,
+                (float) $item->orig_price,
+                (float) $item->orig_price,
+                (float) $item->orig_price + (float) $item->orig_tax_amt,
+                [
                     [
-                        [
-                            'taxType' => 'T1',
-                            'subType' => 'V009',
-                            'amount' => (float) $item->orig_tax_amt,
-                            'rate' => 1,
-                        ],
-                    ]
-                ))->toArray(),
-            ],
+                        'taxType' => 'T1',
+                        'subType' => 'V009',
+                        'amount' => (float) $item->orig_tax_amt,
+                        'rate' => (int) $item->tax_prec,
+                    ],
+                ]
+            ))->toArray(),
             (float) $document->sale_total_amt,
             (float) $document->sale_total_amt,
             (float) $document->sale_subtotal,
