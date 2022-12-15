@@ -15,6 +15,13 @@ class Signature
         //
     }
 
+    public static function hashedSerializedData($documentStructure)
+    {
+        $serializedData = self::serialize($documentStructure);
+
+        return hash('sha256', $serializedData);
+    }
+
     /**
      * @param  mixed  $documentStructure
      * @return string
