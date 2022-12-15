@@ -6,7 +6,6 @@ use App\Domains\ETA;
 use App\Domains\Feed\Drivers\Database\Models\Document;
 use App\Domains\Feed\Drivers\Database\Models\DocumentItem;
 use App\Domains\Receipt;
-use Illuminate\Support\Facades\Hash;
 
 class SubmitReceipt
 {
@@ -38,7 +37,7 @@ class SubmitReceipt
     {
         $receipt = new ETA\DTO\Receipt(
             new ETA\DTO\Header(
-                $document->invc_post_date,
+                $document->post_date,
                 $document->doc_no,
                 '',
                 ''
@@ -88,7 +87,7 @@ class SubmitReceipt
                             'exchangeRate' => 1,
                         ],
                     ]
-                )),
+                ))->toArray(),
             ],
             $document->sale_total_amt,
             $document->sale_total_amt,
@@ -110,7 +109,7 @@ class SubmitReceipt
         );
 
         $receipt->header->previousUUID = '89F8875315D17E52E1EDE0FCC59C0FD340439B0E30B2F8C51371490EF8D44A70';
-        $receipt->header->uuid = Hash::make($receipt->signatures[0]['value']);
+        $receipt->header->uuid = hash_hmac('sha256', $receipt->signatures[0]['value'], $receipt->header->receiptNumber);
 
         return $receipt;
     }
