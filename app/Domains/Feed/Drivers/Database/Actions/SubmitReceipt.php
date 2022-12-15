@@ -84,10 +84,6 @@ class SubmitReceipt
                             'subType' => 'V009',
                             'amount' => (float) $item->orig_tax_amt,
                             'rate' => 1,
-                            'taxTypeName' => 'Value added Tax',
-                            'taxTypeNameAr' => 'ضريبه القيمه المضافه',
-                            'sign' => 1,
-                            'exchangeRate' => 1,
                         ],
                     ]
                 ))->toArray(),

@@ -16,9 +16,6 @@ class ItemData
         public array $taxableItems,
         public string $itemType = 'EGS',
         public string $unitType = 'CS',
-        public array $commercialDiscountData = [],
-        public array $itemDiscountData = [],
-        public int $valueDifference = 0,
     ) {
         //
     }
