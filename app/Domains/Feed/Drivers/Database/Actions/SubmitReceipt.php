@@ -22,6 +22,10 @@ class SubmitReceipt
      */
     public static function handle(Document $document, Receipt\Models\Receipt $receipt): void
     {
+        if (! empty($receipt->status)) {
+            return;
+        }
+
         app(ETA\APIs\Receipt::class)->submit(
             static::getReceipt($document),
             fn ($response) => $receipt->saveResponse($response)

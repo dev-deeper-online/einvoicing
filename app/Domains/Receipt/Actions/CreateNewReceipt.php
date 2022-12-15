@@ -15,11 +15,12 @@ class CreateNewReceipt implements CreatesNewReceipt
      */
     public function handle(DTO\Receipt $receipt): Models\Receipt
     {
-        return Models\Receipt::create([
+        return Models\Receipt::firstOrCreate([
             'id' => $receipt->id,
+            'created_at' => $receipt->created_at,
+        ], [
             'receiver' => $receipt->receiver,
             'total' => $receipt->total,
-            'created_at' => $receipt->created_at,
             'status' => null,
         ]);
     }
