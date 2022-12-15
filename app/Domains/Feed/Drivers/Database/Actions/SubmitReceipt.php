@@ -100,7 +100,9 @@ class SubmitReceipt
         );
 
         $receipt->header->previousUUID = '89F8875315D17E52E1EDE0FCC59C0FD340439B0E30B2F8C51371490EF8D44A70';
-        $receipt->header->uuid = hash_hmac('sha256', ETA\DTO\Signature::serialize($receipt->toArray()), $receipt->header->receiptNumber);
+        $receipt->header->uuid = bin2hex(
+            hash_hmac('sha256', ETA\DTO\Signature::serialize($receipt->toArray()), $receipt->header->receiptNumber)
+        );
 
         return $receipt;
     }
