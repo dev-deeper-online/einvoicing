@@ -29,15 +29,15 @@ class SubmitDocument extends SubmitsDocument
             customer_id: $document->bt_cuid,
             total_discount_amount: $document->total_discount_amt,
             items: $document->items->map(fn (DocumentItem $item) => [
-                $item->sid,
-                $item->description1,
-                $item->inventory?->text6,
-                (int) $item->qty,
-                (float) $item->orig_price,
-                (float) $item->orig_price,
-                (float) $item->orig_price,
-                (float) $item->orig_price + (float) $item->orig_tax_amt,
-                [
+                'internalCode' => $item->sid,
+                'description' => $item->description1,
+                'itemCode' => $item->inventory?->text6,
+                'quantity' => (int) $item->qty,
+                'unitPrice' => (float) $item->orig_price,
+                'netSale' => (float) $item->orig_price,
+                'totalSale' => (float) $item->orig_price,
+                'total' => (float) $item->orig_price + (float) $item->orig_tax_amt,
+                'taxableItems' => [
                     [
                         'taxType' => 'T1',
                         'subType' => 'V009',
@@ -45,6 +45,8 @@ class SubmitDocument extends SubmitsDocument
                         'rate' => (int) $item->tax_prec,
                     ],
                 ],
+                'itemType' => 'EGS',
+                'unitType' => 'CS',
             ])->toArray(),
         );
     }
