@@ -28,7 +28,7 @@ trait WorkingWithAmount
      */
     public function setTotalAmount(?float $total_amount = 0): Document
     {
-        $this->total_amount = $total_amount;
+        $this->total_amount = $total_amount ?? 0;
 
         return $this;
     }
@@ -47,7 +47,7 @@ trait WorkingWithAmount
      */
     public function setSalesTotalAmount(?float $sales_total_amount = 0): Document
     {
-        $this->sales_total_amount = $sales_total_amount;
+        $this->sales_total_amount = $sales_total_amount ?? 0;
 
         return $this;
     }
@@ -66,7 +66,7 @@ trait WorkingWithAmount
      */
     public function setSalesSubtotal(?float $sales_subtotal = 0): Document
     {
-        $this->sales_subtotal = $sales_subtotal;
+        $this->sales_subtotal = $sales_subtotal ?? 0;
 
         return $this;
     }
@@ -85,7 +85,7 @@ trait WorkingWithAmount
      */
     public function setTotalDiscountAmount(?float $total_discount_amount = 0): Document
     {
-        $this->total_discount_amount = $total_discount_amount;
+        $this->total_discount_amount = $total_discount_amount ?? 0;
 
         return $this;
     }
