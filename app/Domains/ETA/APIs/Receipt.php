@@ -38,7 +38,7 @@ class Receipt extends AbstractDocument
         $doc['header']['uuid'] = $uuid;
 
         $response = $this->asJson()
-            ->withToken($auth->access_token, $auth->token_type)
+            ->withToken($auth['access_token'], $auth['token_type'])
             ->post('/receiptsubmissions', [
                 'receipts' => [$doc],
                 'signatures' => [[

@@ -2,7 +2,6 @@
 
 namespace App\Domains\ETA\APIs;
 
-use App\Domains\ETA\DTO;
 use App\Domains\ETA\Exceptions\BadRequestException;
 
 class Auth extends API
@@ -17,11 +16,11 @@ class Auth extends API
     /**
      * Login given client id and secret.
      *
-     * @return DTO\Auth
+     * @return array
      *
      * @throws BadRequestException
      */
-    public function login(): DTO\Auth
+    public function login(): array
     {
         $response = $this->asForm()
             ->post('/connect/token', [
@@ -30,10 +29,10 @@ class Auth extends API
                 'client_secret' => config('eta.client_secret'),
             ]);
 
-        return new DTO\Auth(
-            $response['access_token'],
-            $response['token_type'],
-            $response['expires_in'],
-        );
+        return [
+            'access_token' => $response['access_token'],
+            'token_type' => $response['token_type'],
+            'expires_in' => $response['expires_in'],
+        ];
     }
 }
