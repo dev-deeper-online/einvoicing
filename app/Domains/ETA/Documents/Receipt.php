@@ -36,6 +36,7 @@ class Receipt extends Document
                 'exchangeRate' => 1,
                 'orderdeliveryMode' => 'FC',
             ],
+            'documentTypeVersion' => $this->getVersion(),
             'documentType' => [
                 'receiptType' => $this->getType(),
                 'typeVersion' => $this->getVersion(),
