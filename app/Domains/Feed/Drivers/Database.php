@@ -17,8 +17,8 @@ class Database extends Driver
     public function run(): void
     {
         Document::with([
-            'items:document_item.sid,document_item.description1,document_item.qty,document_item.orig_price,document_item.orig_tax_amt',
-            'items.inventory:invn_sbs_item.text6',
+            'items:document_item.sid,document_item.doc_sid,document_item.description1,document_item.qty,document_item.orig_price,document_item.orig_tax_amt',
+            'items.inventory:iinvn_sbs_item.sbs_sid,nvn_sbs_item.text6',
         ])->select([
             'document.sid',
             'document.bt_first_name',
