@@ -24,9 +24,9 @@ trait Buildable
     public function build(
         ?string $id = null,
         ?Carbon $date = null,
-        float $sales_total_amount = 0,
-        float $total_amount = 0,
-        float $sales_subtotal = 0,
+        ?float $sales_total_amount = 0,
+        ?float $total_amount = 0,
+        ?float $sales_subtotal = 0,
         ?string $customer_name = null,
         ?string $customer_id = null,
         ?float $total_discount_amount = 0,
