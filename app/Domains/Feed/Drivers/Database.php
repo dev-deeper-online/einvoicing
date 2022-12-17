@@ -17,12 +17,13 @@ class Database extends Driver
     public function run(): void
     {
         Document::with([
-            'items:sid,description1,qty,orig_price,orig_tax_amt,', 'items.inventory:text6',
+            'items:document_item.sid,document_item.description1,document_item.qty,document_item.orig_price,document_item.orig_tax_amt,',
+            'items.inventory:invn_sbs_item.text6',
         ])->select([
-            'sid',
-            'bt_first_name',
-            'sale_total_amt',
-            'created_datetime',
+            'document.sid',
+            'document.bt_first_name',
+            'document.sale_total_amt',
+            'document.created_datetime',
         ])->chunk(100, fn (Collection $documents) => $documents->each(function (Document $document) {
             $receipt = CreateNewReceipt::handle($document);
 
