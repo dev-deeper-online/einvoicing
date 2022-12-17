@@ -18,6 +18,7 @@ class DocumentSignatureCommand extends Command
             app_path('Domains/ETA/Signer/EInvoicingSigner.exe'),
             storage_path('app/temp'),
             '13NQ9Z1',
+            'Egypt Trust Sealing CA',
         ];
 
         $process = Process::fromShellCommandline(implode(' ', $cmd));
