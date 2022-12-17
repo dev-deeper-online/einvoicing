@@ -2,30 +2,49 @@
 
 namespace App\Domains\ETA\APIs;
 
-use App\Domains\ETA\DTO;
+use App\Domains\ETA\APIs\Document as AbstractDocument;
+use App\Domains\ETA\Documents\Document;
+use App\Domains\ETA\Exceptions\BadRequestException;
 use Closure;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\File;
 
-class Receipt extends API
+class Receipt extends AbstractDocument
 {
     /**
-     * Submits the given receipt.
+     * {@inheritdoc}
      *
-     * @param  DTO\Receipt  $receipt
+     * @param  Document  $document
      * @param  Closure  $callback
      * @return void
      *
-     * @throws \App\Domains\ETA\Exceptions\BadRequestException
+     * @throws BadRequestException
      * @throws \JsonException
      */
-    public function submit(DTO\Receipt $receipt, Closure $callback): void
+    public function submit(Document $document, Closure $callback): void
     {
         $auth = app(Auth::class)->login();
+
+        File::put(
+            storage_path('app/temp/SourceDocumentJson.json'),
+            json_encode($document->toArray(), JSON_THROW_ON_ERROR)
+        );
+
+        Artisan::call('document:sign');
+
+        $uuid = File::get(storage_path('app/temp/Cades.txt'));
+
+        $doc = $document->toArray();
+        $doc['header']['uuid'] = $uuid;
 
         $response = $this->asJson()
             ->withToken($auth->access_token, $auth->token_type)
             ->post('/receiptsubmissions', [
-                'receipts' => [$receipt],
-                'signatures' => $receipt->getSignatures(),
+                'receipts' => [$doc],
+                'signatures' => [[
+                    'type' => 'I',
+                    'value' => File::get(storage_path('app/temp/CanonicalString.txt')),
+                ]],
             ]);
 
         $callback($response);

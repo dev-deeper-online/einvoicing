@@ -2,12 +2,12 @@
 
 namespace App\Domains\Feed\Drivers;
 
-interface Driver
+abstract class Driver
 {
     /**
      * Run the corresponded driver to feed the app.
      *
      * @return void
      */
-    public function run(): void;
+    abstract public function run(): void;
 }

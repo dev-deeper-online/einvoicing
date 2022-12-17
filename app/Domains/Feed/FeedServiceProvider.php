@@ -13,6 +13,9 @@ class FeedServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton('feeder', fn ($app) => new FeedManager($app));
+        $this->app->singleton(
+            'feeder',
+            fn ($app) => new FeedManager($app)
+        );
     }
 }
