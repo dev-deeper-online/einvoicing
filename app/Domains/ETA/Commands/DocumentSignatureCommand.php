@@ -15,7 +15,7 @@ class DocumentSignatureCommand extends Command
     public function handle(): int
     {
         $cmd = [
-            app_path('Domains/ETAServiceProvider/Signer/EInvoicingSigner.exe'),
+            app_path('Domains/ETA/Signer/EInvoicingSigner.exe'),
             storage_path('app/temp'),
             '13NQ9Z1',
         ];
