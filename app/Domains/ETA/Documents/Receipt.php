@@ -31,7 +31,7 @@ class Receipt extends Document
                 'dateTimeIssued' => $this->getDate()?->toDateTimeLocalString(),
                 'receiptNumber' => $this->getBranchCode().'_'.$this->getId(),
                 'uuid' => null,
-                'previousUUID' => '',
+                'previousUUID' => '89F8875315D17E52E1EDE0FCC59C0FD340439B0E30B2F8C51371490EF8D44A70',
                 'currency' => 'EGP',
                 'exchangeRate' => null,
                 'orderdeliveryMode' => 'FC',
