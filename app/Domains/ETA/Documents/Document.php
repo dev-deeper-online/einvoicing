@@ -3,22 +3,24 @@
 namespace App\Domains\ETA\Documents;
 
 use App\Domains\ETA\Documents\Concerns\Buildable;
+use App\Domains\ETA\Documents\Concerns\InteractsWithAmount;
+use App\Domains\ETA\Documents\Concerns\InteractsWithCustomer;
+use App\Domains\ETA\Documents\Concerns\InteractsWithItems;
+use App\Domains\ETA\Documents\Concerns\InteractsWithSeller;
+use App\Domains\ETA\Documents\Concerns\Signable;
 use App\Domains\ETA\Documents\Concerns\Submittable;
-use App\Domains\ETA\Documents\Concerns\WorkingWithAmount;
-use App\Domains\ETA\Documents\Concerns\WorkingWithCustomer;
-use App\Domains\ETA\Documents\Concerns\WorkingWithItems;
-use App\Domains\ETA\Documents\Concerns\WorkingWithSeller;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Carbon;
 
 abstract class Document implements Arrayable
 {
     use Buildable;
+    use Signable;
     use Submittable;
-    use WorkingWithCustomer;
-    use WorkingWithAmount;
-    use WorkingWithItems;
-    use WorkingWithSeller;
+    use InteractsWithCustomer;
+    use InteractsWithAmount;
+    use InteractsWithItems;
+    use InteractsWithSeller;
 
     /**
      * @var string|null

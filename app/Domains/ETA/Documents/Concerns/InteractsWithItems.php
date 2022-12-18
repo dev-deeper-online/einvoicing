@@ -4,7 +4,7 @@ namespace App\Domains\ETA\Documents\Concerns;
 
 use App\Domains\ETA\Documents\Document;
 
-trait WorkingWithItems
+trait InteractsWithItems
 {
     protected array $items = [];
 

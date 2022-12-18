@@ -2,7 +2,7 @@
 
 namespace App\Domains\ETA\Documents\Concerns;
 
-trait WorkingWithSeller
+trait InteractsWithSeller
 {
     private string $branchCode = '0';
 

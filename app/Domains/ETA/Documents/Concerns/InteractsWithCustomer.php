@@ -4,7 +4,7 @@ namespace App\Domains\ETA\Documents\Concerns;
 
 use App\Domains\ETA\Documents\Document;
 
-trait WorkingWithCustomer
+trait InteractsWithCustomer
 {
     protected ?string $customer_name = null;
 
