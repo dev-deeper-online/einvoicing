@@ -31,6 +31,6 @@ class Receipt extends AbstractDocument
                 'receipts' => [$doc],
             ]);
 
-        $callback($response);
+        $callback($response, $doc);
     }
 }
