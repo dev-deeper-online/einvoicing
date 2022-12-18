@@ -30,7 +30,7 @@ abstract class SubmitsDocument
         }
 
         static::buildDocumentFrom($document)->submit(
-            static fn ($response, $doc) => dd($response, $doc)
+            static fn ($response, $doc) => $receipt->saveResponse($response)
         );
     }
 }

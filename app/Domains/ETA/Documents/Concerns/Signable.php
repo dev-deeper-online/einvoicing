@@ -13,8 +13,8 @@ trait Signable
     {
         return $this->toCanonicalString([
             'receipts' => [
-                $this->toArray()
-            ]
+                $this->toArray(),
+            ],
         ]);
     }
 
