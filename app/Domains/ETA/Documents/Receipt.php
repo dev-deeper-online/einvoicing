@@ -33,7 +33,7 @@ class Receipt extends Document
                 'uuid' => null,
                 'previousUUID' => '',
                 'currency' => 'EGP',
-                'exchangeRate' => 1,
+                'exchangeRate' => null,
                 'orderdeliveryMode' => 'FC',
             ],
             'documentType' => [
