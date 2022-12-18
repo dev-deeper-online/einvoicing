@@ -4,17 +4,34 @@ namespace App\Domains\ETA\Documents\Concerns;
 
 trait Signable
 {
+    /**
+     * Serialize the document instance.
+     *
+     * @return string
+     */
     public function serialize(): string
     {
-        return $this->toCanonicalString($this->toArray());
+        return $this->toCanonicalString([
+            'receipts' => [
+                $this->toArray()
+            ]
+        ]);
     }
 
+    /**
+     * Create a SHA256 hash from serialized instance.
+     *
+     * @param  bool  $binary
+     * @return string
+     */
     public function hashedSerialization(bool $binary = true): string
     {
         return hash('sha256', $this->serialize(), $binary);
     }
 
     /**
+     * Get the document signatures.
+     *
      * @return array
      */
     public function getSignatures(): array
@@ -25,6 +42,12 @@ trait Signable
         ]];
     }
 
+    /**
+     * Create a canonical representation from the document instance.
+     *
+     * @param  mixed  $documentStructure
+     * @return string
+     */
     protected function toCanonicalString(mixed $documentStructure): string
     {
         if (! is_array($documentStructure)) {
