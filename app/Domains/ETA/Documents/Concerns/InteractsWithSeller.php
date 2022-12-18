@@ -20,7 +20,7 @@ trait InteractsWithSeller
     protected function getSeller(): array
     {
         return [
-            'rin' => 562415149,
+            'rin' => '562415149',
             'companyTradeName' => 'coup',
             'branchCode' => $this->getBranchCode(),
             'deviceSerialNumber' => '13NQ9Z1',
