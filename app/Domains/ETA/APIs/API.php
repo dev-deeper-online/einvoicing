@@ -2,89 +2,26 @@
 
 namespace App\Domains\ETA\APIs;
 
-use App\Domains\ETA\Exceptions\BadRequestException;
 use Illuminate\Http\Client\PendingRequest;
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 
 abstract class API
 {
-    /**
-     * Get the Http client.
-     *
-     * @var PendingRequest
-     */
+    protected string $baseURL = 'http://localhost:8020/api/v1/toolkit/';
+
     protected PendingRequest $http;
 
-    /**
-     * The base url of the ETA system apis.
-     *
-     * @var string
-     */
-    protected string $baseUrl = 'https://api.invoicing.eta.gov.eg/api/v1';
-
-    /**
-     * API construct.
-     */
     public function __construct()
     {
-        $this->http = Http::baseUrl($this->getBaseUrl());
-    }
+        $this->http = Http::baseUrl($this->baseURL);
 
-    /**
-     * @return string
-     */
-    public function getBaseUrl(): string
-    {
-        $env = config('eta.environment', 'preprod');
-
-        return match ($env) {
-            'preprod' => str_replace([
-                'https://api.',
-                'https://id.',
-            ], [
-                'https://api.preprod.',
-                'https://id.preprod.',
-            ], $this->baseUrl),
-            default => $this->baseUrl
-        };
-    }
-
-    /**
-     * Indicate the request contains form parameters.
-     *
-     * @return $this
-     */
-    protected function asForm(): static
-    {
-        $this->http = $this->http->asForm();
-
-        return $this;
-    }
-
-    /**
-     * Indicate the request contains JSON.
-     *
-     * @return $this
-     */
-    public function asJson(): static
-    {
-        $this->http = $this->http->asJson();
-
-        return $this;
-    }
-
-    /**
-     * Specify an authorization token for the request.
-     *
-     * @param  string  $token
-     * @param  string  $type
-     * @return $this
-     */
-    public function withToken(string $token, string $type = 'Bearer'): static
-    {
-        $this->http = $this->http->withToken($token, $type);
-
-        return $this;
+        $this->put('initialize', [
+            'saveCredential' => true,
+            'resumeWithInvalidCache' => false,
+            'cachLookupDurationInHours' => 24,
+            'maximumSubmissionDocumentCount' => 500,
+        ]);
     }
 
     /**
@@ -92,33 +29,22 @@ abstract class API
      *
      * @param  string  $url
      * @param  array  $data
-     * @return array|null
-     *
-     * @throws BadRequestException
+     * @return Response
      */
-    protected function post(string $url, array $data = []): ?array
+    public function post(string $url, array $data = []): Response
     {
-        $response = $this->http
-            ->post($url, $data)
-            ->json();
-
-        $this->handleError($response);
-
-        return $response;
+        return $this->http->post($url, $data);
     }
 
     /**
-     * Handle upcoming exceptions from ETA.
+     * Issue a PUT request to the given URL.
      *
-     * @param  array|null  $response
-     * @return void
-     *
-     * @throws BadRequestException
+     * @param  string  $url
+     * @param  array  $data
+     * @return Response
      */
-    protected function handleError(?array $response): void
+    public function put(string $url, array $data = []): Response
     {
-        if (blank($response) || isset($response['error'])) {
-            throw new BadRequestException($response['error_description'] ?? $response['error'] ?? 'Fatal error occurred');
-        }
+        return $this->http->put($url, $data);
     }
 }

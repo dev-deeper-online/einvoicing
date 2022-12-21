@@ -2,8 +2,13 @@
 
 namespace App\Domains\ETA\Documents;
 
+use App\Domains\ETA\Documents\Concerns\InteractsWithUUIDs;
+use Closure;
+
 class Receipt extends Document
 {
+    use InteractsWithUUIDs;
+
     /**
      * @var string|null
      */
@@ -14,9 +19,28 @@ class Receipt extends Document
      */
     protected ?string $version = '1.2';
 
+    /**
+     * {@inheritdoc}
+     *
+     * @return \App\Domains\ETA\APIs\Receipt
+     */
     protected function submitAPIHandler(): \App\Domains\ETA\APIs\Receipt
     {
         return app(\App\Domains\ETA\APIs\Receipt::class);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @param  Closure  $callback
+     * @return void
+     */
+    public function submit(Closure $callback): void
+    {
+        $uuid = $this->submitAPIHandler()->generateUUID($this);
+        $this->setUuid($uuid);
+
+        parent::submit($callback);
     }
 
     /**
@@ -30,8 +54,8 @@ class Receipt extends Document
             'header' => [
                 'dateTimeIssued' => $this->getDate()?->toDateTimeLocalString(),
                 'receiptNumber' => $this->getBranchCode().'_'.$this->getId(),
-                'uuid' => null,
-                'previousUUID' => '89F8875315D17E52E1EDE0FCC59C0FD340439B0E30B2F8C51371490EF8D44A70',
+                'uuid' => $this->getUUID(),
+                'previousUUID' => $this->getPreviousUUID(),
                 'currency' => 'EGP',
                 'exchangeRate' => null,
                 'orderdeliveryMode' => 'FC',
