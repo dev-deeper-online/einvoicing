@@ -2,26 +2,46 @@
 
 namespace App\Domains\ETA\APIs;
 
+use Exception;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 
 abstract class API
 {
-    protected string $baseURL = 'http://localhost:8020/api/v1/toolkit/';
-
     protected PendingRequest $http;
 
+    /**
+     * @throws Exception
+     */
     public function __construct()
     {
-        $this->http = Http::baseUrl($this->baseURL);
+        $this->http = Http::baseUrl($this->getBaseURL());
 
+        $this->initialize();
+    }
+
+    /**
+     * @return string
+     */
+    protected function getBaseURL(): string
+    {
+        return sprintf('%s/api/v1/toolkit', config('eta.base_url'));
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function initialize(): void
+    {
         $this->put('initialize', [
             'saveCredential' => true,
-            'resumeWithInvalidCache' => false,
+            'resumeWithInvalidCache' => true,
             'cachLookupDurationInHours' => 24,
             'maximumSubmissionDocumentCount' => 500,
         ]);
+
+        app(Auth::class)->handle();
     }
 
     /**
@@ -31,7 +51,7 @@ abstract class API
      * @param  array  $data
      * @return Response
      */
-    public function post(string $url, array $data = []): Response
+    protected function post(string $url, array $data = []): Response
     {
         return $this->http->post($url, $data);
     }
@@ -43,7 +63,7 @@ abstract class API
      * @param  array  $data
      * @return Response
      */
-    public function put(string $url, array $data = []): Response
+    protected function put(string $url, array $data = []): Response
     {
         return $this->http->put($url, $data);
     }
