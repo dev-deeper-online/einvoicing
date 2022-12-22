@@ -20,6 +20,7 @@ class Auth
         return $this->http->post('connect/token', [
             'clientId' => config('eta.client_id'),
             'clientSecret' => config('eta.client_secret'),
+            'posSerial' => '13NQ9Z1',
         ])->json();
     }
 }
