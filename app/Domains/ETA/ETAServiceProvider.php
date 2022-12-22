@@ -15,6 +15,6 @@ class ETAServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->singleton('eta', ETAManager::class);
-        $this->app->singleton(API::class, API::class);
+        $this->app->singleton(API::class, fn () => (new API())->initialize());
     }
 }

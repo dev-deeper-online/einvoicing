@@ -11,16 +11,32 @@ class API
 {
     protected PendingRequest $http;
 
-    protected bool $initialized = false;
-
     /**
      * @throws Exception
      */
     public function __construct()
     {
         $this->http = Http::baseUrl($this->getBaseURL());
+    }
 
-        $this->initialize();
+    public function initialize(): static
+    {
+        $response = $this->put('initialize', [
+            'saveCredential' => true,
+            'resumeWithInvalidCache' => true,
+            'cachLookupDurationInHours' => 24,
+            'maximumSubmissionDocumentCount' => 500,
+        ])->json();
+
+        if (isset($response['initialized']) && $response['initialized']) {
+            $auth = (new Auth($this))->handle();
+
+            $this->http = $this->http->withToken($auth['token']);
+
+            $this->put('refreshcache');
+        }
+
+        return $this;
     }
 
     /**
@@ -29,34 +45,6 @@ class API
     protected function getBaseURL(): string
     {
         return sprintf('%s/api/v1/toolkit', config('eta.base_url'));
-    }
-
-    /**
-     * @throws Exception
-     */
-    protected function initialize(): void
-    {
-        if ($this->initialized) {
-            return;
-        }
-
-        $response = $this->put('initialize', [
-            'saveCredential' => true,
-            'resumeWithInvalidCache' => true,
-            'cachLookupDurationInHours' => 24,
-            'maximumSubmissionDocumentCount' => 500,
-        ])->json();
-
-        logger('initialize', $response);
-
-        if (isset($response['initialized']) && $response['initialized']) {
-            $this->initialized = $response['initialized'];
-
-            $response = $this->put('refreshcache')->json();
-            logger('refreshcache', $response);
-
-            (new Auth($this))->handle();
-        }
     }
 
     /**
@@ -81,5 +69,19 @@ class API
     public function put(string $url, array $data = []): Response
     {
         return $this->http->put($url, $data);
+    }
+
+    /**
+     * Specify an authorization token for the request.
+     *
+     * @param  string  $token
+     * @param  string  $type
+     * @return $this
+     */
+    public function withToken(string $token, string $type = 'Bearer'): static
+    {
+        $this->http->withToken($token, $type);
+
+        return $this;
     }
 }
