@@ -2,8 +2,14 @@
 
 namespace App\Domains\ETA\APIs;
 
-class Auth extends API
+class Auth
 {
+    public function __construct(
+        protected API $http
+    ) {
+        //
+    }
+
     /**
      * Handle the request.
      *
@@ -11,7 +17,7 @@ class Auth extends API
      */
     public function handle(): array
     {
-        return $this->post('connect/token', [
+        return $this->http->post('connect/token', [
             'clientId' => config('eta.client_id'),
             'clientSecret' => config('eta.client_secret'),
         ])->json();

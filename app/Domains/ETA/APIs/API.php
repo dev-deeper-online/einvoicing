@@ -50,7 +50,7 @@ abstract class API
         if (isset($response['initialized']) && $response['initialized']) {
             $this->initialized = $response['initialized'];
 
-            app(Auth::class)->handle();
+            (new Auth($this))->handle();
         }
     }
 
@@ -61,7 +61,7 @@ abstract class API
      * @param  array  $data
      * @return Response
      */
-    protected function post(string $url, array $data = []): Response
+    public function post(string $url, array $data = []): Response
     {
         return $this->http->post($url, $data);
     }
@@ -73,7 +73,7 @@ abstract class API
      * @param  array  $data
      * @return Response
      */
-    protected function put(string $url, array $data = []): Response
+    public function put(string $url, array $data = []): Response
     {
         return $this->http->put($url, $data);
     }
