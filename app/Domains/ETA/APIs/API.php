@@ -11,6 +11,8 @@ abstract class API
 {
     protected PendingRequest $http;
 
+    protected bool $initialized = false;
+
     /**
      * @throws Exception
      */
@@ -34,14 +36,22 @@ abstract class API
      */
     protected function initialize(): void
     {
-        $this->put('initialize', [
+        if ($this->initialized) {
+            return;
+        }
+
+        $response = $this->put('initialize', [
             'saveCredential' => true,
             'resumeWithInvalidCache' => true,
             'cachLookupDurationInHours' => 24,
             'maximumSubmissionDocumentCount' => 500,
-        ]);
+        ])->json();
 
-        app(Auth::class)->handle();
+        if (isset($response['initialized']) && $response['initialized']) {
+            $this->initialized = $response['initialized'];
+
+            app(Auth::class)->handle();
+        }
     }
 
     /**

@@ -4,6 +4,11 @@ namespace App\Domains\ETA\APIs;
 
 class Auth extends API
 {
+    /**
+     * Handle the request.
+     *
+     * @return array
+     */
     public function handle(): array
     {
         return $this->post('connect/token', [
