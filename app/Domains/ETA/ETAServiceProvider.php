@@ -3,7 +3,6 @@
 namespace App\Domains\ETA;
 
 use App\Domains\ETA\APIs\API;
-use App\Domains\ETA\Commands\DocumentSignatureCommand;
 use Illuminate\Support\ServiceProvider;
 
 class ETAServiceProvider extends ServiceProvider
@@ -15,10 +14,6 @@ class ETAServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->commands([
-            DocumentSignatureCommand::class,
-        ]);
-
         $this->app->singleton('eta', ETAManager::class);
         $this->app->singleton(API::class, API::class);
     }

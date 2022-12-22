@@ -21,6 +21,7 @@ class Auth
             'clientId' => config('eta.client_id'),
             'clientSecret' => config('eta.client_secret'),
             'posSerial' => '13NQ9Z1',
+            'posOsVersion' => 'win10',
         ])->json();
 
         logger('Login', $response);
