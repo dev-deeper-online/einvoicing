@@ -10,12 +10,16 @@ class Receipt extends Document
     {
         $response = $this->http->post('uuid', $receipt->toArray())->json();
 
+        logger('generate uuid', $response);
+
         return $response['uuid'];
     }
 
     public function submit(\App\Domains\ETA\Documents\Document $receipt, Closure $callback): void
     {
         $response = $this->http->post('receipt', $receipt->toArray())->json();
+
+        logger('submit', $response);
 
         $callback($response);
     }

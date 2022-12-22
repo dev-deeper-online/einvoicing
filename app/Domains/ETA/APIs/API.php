@@ -47,10 +47,14 @@ class API
             'maximumSubmissionDocumentCount' => 500,
         ])->json();
 
+        logger('initialize', $response);
+
         if (isset($response['initialized']) && $response['initialized']) {
             $this->initialized = $response['initialized'];
 
-            $this->put('refreshcache');
+            $response = $this->put('refreshcache')->json();
+            logger('refreshcache', $response);
+
             (new Auth($this))->handle();
         }
     }
