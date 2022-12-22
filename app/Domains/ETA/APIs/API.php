@@ -16,7 +16,11 @@ class API
      */
     public function __construct()
     {
-        $this->http = Http::baseUrl($this->getBaseURL());
+        $this->http = Http::baseUrl($this->getBaseURL())->withHeaders([
+            'posserial' => 'Test_SerialNo1',
+            'pososversion' => 'IOS',
+            'presharedkey' => config('eta.client_id'),
+        ]);
     }
 
     public function initialize(): static
@@ -69,19 +73,5 @@ class API
     public function put(string $url, array $data = []): Response
     {
         return $this->http->put($url, $data);
-    }
-
-    /**
-     * Specify an authorization token for the request.
-     *
-     * @param  string  $token
-     * @param  string  $type
-     * @return $this
-     */
-    public function withToken(string $token, string $type = 'Bearer'): static
-    {
-        $this->http->withToken($token, $type);
-
-        return $this;
     }
 }
