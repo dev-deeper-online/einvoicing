@@ -50,6 +50,7 @@ class API
         if (isset($response['initialized']) && $response['initialized']) {
             $this->initialized = $response['initialized'];
 
+            $this->put('refreshcache');
             (new Auth($this))->handle();
         }
     }
