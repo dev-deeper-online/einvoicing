@@ -7,7 +7,7 @@ use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 
-abstract class API
+class API
 {
     protected PendingRequest $http;
 
