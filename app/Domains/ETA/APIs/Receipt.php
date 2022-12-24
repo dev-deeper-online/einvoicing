@@ -17,9 +17,9 @@ class Receipt extends Document
 
     public function submit(\App\Domains\ETA\Documents\Document $receipt, Closure $callback): void
     {
-        $response = $this->http->post('receipt', $receipt->toArray())->json();
-
-        logger('submit', $response);
+        $response = $this->http->post('receipt', [
+            'receipts' => [$receipt->toArray()],
+        ])->json();
 
         $callback($response);
     }

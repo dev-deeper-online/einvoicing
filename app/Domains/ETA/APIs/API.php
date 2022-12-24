@@ -16,11 +16,7 @@ class API
      */
     public function __construct()
     {
-        $this->http = Http::baseUrl($this->getBaseURL())->withHeaders([
-            'posserial' => 'Test_SerialNo1',
-            'pososversion' => 'IOS',
-            'presharedkey' => config('eta.client_id'),
-        ]);
+        $this->http = Http::baseUrl($this->getBaseURL());
     }
 
     public function initialize(): static
@@ -37,7 +33,7 @@ class API
 
             $this->http = $this->http->withToken($auth['token']);
 
-            $this->put('refreshcache');
+//            $this->put('refreshcache');
         }
 
         return $this;

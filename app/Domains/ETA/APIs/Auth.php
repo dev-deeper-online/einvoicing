@@ -17,15 +17,9 @@ class Auth
      */
     public function handle(): array
     {
-        $response = $this->http->post('connect/token', [
+        return $this->http->post('connect/token', [
             'clientId' => config('eta.client_id'),
             'clientSecret' => config('eta.client_secret'),
-            'posSerial' => '13NQ9Z1',
-            'posOsVersion' => 'win10',
         ])->json();
-
-        logger('Login', $response);
-
-        return $response;
     }
 }
